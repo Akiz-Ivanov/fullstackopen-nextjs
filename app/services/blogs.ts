@@ -46,6 +46,10 @@ let blogs: Blog[] = [
 
 export const getBlogs = () => blogs
 
+export const getBlogById = (id: string) => {
+  return blogs.find((blog) => blog.id === id)
+}
+
 export const addBlog = (title: string, author: string, url: string) => {
   const newBlog: Blog = {
     id: (blogs.length + 1).toString(),
@@ -56,4 +60,12 @@ export const addBlog = (title: string, author: string, url: string) => {
   }
   blogs = blogs.concat(newBlog)
   return newBlog
+}
+
+export const likeBlog = (id: string) => {
+  const blog = getBlogById(id)
+  if (blog) {
+    blog.likes += 1
+  }
+  return blog
 }
