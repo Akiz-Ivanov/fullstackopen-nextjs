@@ -7,15 +7,7 @@ const Blogs = async ({
   searchParams: Promise<{ filter?: string }>
 }) => {
   const { filter } = await searchParams
-  const allBlogs = getBlogs()
-
-  const blogs = filter
-    ? allBlogs.filter((blog) =>
-        blog.title.toLowerCase().includes(filter.toLowerCase())
-      )
-    : allBlogs
-
-  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
+  const blogs = await getBlogs(filter)
 
   return (
     <div>
@@ -25,7 +17,7 @@ const Blogs = async ({
         <button type="submit">Search</button>
       </form>
       <ul>
-        {sortedBlogs.map((blog) => (
+        {blogs.map((blog) => (
           <li key={blog.id}>
             <Link href={`/blogs/${blog.id}`}>{blog.title}</Link> {blog.author} {blog.likes}
           </li>
