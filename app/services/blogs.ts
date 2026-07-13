@@ -1,14 +1,6 @@
-import { eq, ilike, desc } from "drizzle-orm"
+import { eq, ilike, desc, sql } from "drizzle-orm"
 import { db } from "../../db"
 import { blogs } from "../../db/schema"
-
-export type Blog = {
-  id: number
-  title: string
-  author: string
-  url: string
-  likes: number
-}
 
 export const getBlogs = async (filter?: string) => {
   if (filter) {
@@ -30,7 +22,15 @@ export const getBlogById = async (id: number) => {
 }
 
 export const addBlog = async (title: string, author: string, url: string) => {
-  await db.insert(blogs).values({ title, author, url })
+  const user = await db.query.users.findFirst({
+    orderBy: sql`RANDOM()`,
+  })
+
+  if (!user) {
+    throw new Error("No users exist to assign this blog to")
+  }
+
+  await db.insert(blogs).values({ title, author, url, userId: user.id })
 }
 
 export const likeBlog = async (id: number) => {

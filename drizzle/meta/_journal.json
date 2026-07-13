@@ -8,6 +8,20 @@
       "when": 1783947033567,
       "tag": "0000_soft_iron_lad",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1783954977560,
+      "tag": "0001_nappy_skullbuster",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1783955771788,
+      "tag": "0002_flashy_valkyrie",
+      "breakpoints": true
     }
   ]
 }
