@@ -22,6 +22,13 @@
       "when": 1783955771788,
       "tag": "0002_flashy_valkyrie",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1784111150402,
+      "tag": "0003_chubby_loners",
+      "breakpoints": true
     }
   ]
 }
