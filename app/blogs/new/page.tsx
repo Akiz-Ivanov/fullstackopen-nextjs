@@ -1,39 +1,50 @@
 "use client"
 
-import { useActionState } from "react"
+import { useActionState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { createBlog, type FormState } from "../../actions/blogs"
+import { useNotification } from "../../components/NotificationContext"
+import InputGroup from "@/app/components/InputGroup"
 
-const initialState: FormState = { errors: {}, values: { title: "", author: "", url: "" } }
+const initialState: FormState = { errors: {}, success: false, values: { title: "", author: "", url: "" } }
 
 const NewBlog = () => {
   const [state, formAction] = useActionState(createBlog, initialState)
+  const { showNotification } = useNotification()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (state.success) {
+      showNotification("blog created")
+      router.push("/blogs")
+    }
+  }, [state, showNotification, router])
 
   return (
-    <div>
-      <h2>Create a new blog</h2>
-      <form action={formAction}>
-        <div>
-          <label>
-            title: 
-            <input id="title" type="text" name="title" defaultValue={state.values?.title} />
-          </label>
-          {state.errors?.title && <p style={{ color: "red" }}>{state.errors.title}</p>}
-        </div>
-        <div>
-          <label>
-            author: 
-            <input id="author" type="text" name="author" defaultValue={state.values?.author} />
-          </label>
-          {state.errors?.author && <p style={{ color: "red" }}>{state.errors.author}</p>}
-        </div>
-        <div>
-          <label>
-            url: 
-            <input id="url" type="text" name="url" defaultValue={state.values?.url} />
-          </label>
-          {state.errors?.url && <p style={{ color: "red" }}>{state.errors.url}</p>}
-        </div>
-        <button type="submit">Create</button>
+    <div className="max-w-2xl mx-auto p-6 border-gray-700 text-orange-300 border-2 rounded-xl text-center">
+      <h2 className="text-3xl font-bold my-4">Create a new blog</h2>
+      <form action={formAction} className="flex flex-col gap-3 justify-center items-center w-full">
+        <InputGroup
+          name="title"
+          label="title"
+          value={state.values?.title}
+          error={state.errors?.title}
+        />
+
+        <InputGroup
+          name="author"
+          label="author"
+          value={state.values?.author}
+          error={state.errors?.author}
+        />
+
+        <InputGroup
+          name="url"
+          label="url"
+          value={state.values?.url}
+          error={state.errors?.url}
+        />
+        <button className="bg-amber-600 hover:bg-amber-700 text-white font-bold px-3 py-2 rounded-md text-sm cursor-pointer min-w-28 mt-2 transition-colors" type="submit">Create</button>
       </form>
     </div>
   )
