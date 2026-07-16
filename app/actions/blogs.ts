@@ -4,6 +4,7 @@ import { redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
 import { addBlog, likeBlog } from "../services/blogs"
 import { auth } from "@/auth"
+import { addToReadingList } from "../services/readingList"
 
 export type FormState = {
   errors?: Record<string, string>
@@ -33,9 +34,11 @@ export const createBlog = async (
     return { errors, success: false, values: { title, author, url } }
   }
 
-  await addBlog(title, author, url)
+  const newBlog = await addBlog(title, author, url)
+  await addToReadingList(newBlog.id)
 
   revalidatePath("/blogs")
+  revalidatePath("/me")
   return { error: "", success: true, values: { title, author, url } }
 }
 
@@ -44,4 +47,11 @@ export const addLike = async (formData: FormData) => {
   await likeBlog(id)
   revalidatePath(`/blogs/${id}`)
   revalidatePath("/blogs")
+}
+
+export const addToReadingListAction = async (formData: FormData) => {
+  const blogId = Number(formData.get("blogId"))
+  await addToReadingList(blogId)
+  revalidatePath(`/blogs/${blogId}`)
+  revalidatePath("/me")
 }

@@ -21,7 +21,7 @@ const Blogs = async ({
           <li key={blog.id} className="flex flex-col gap-2 space-between border rounded p-3 hover:bg-gray-500">
             <Link 
               href={`/blogs/${blog.id}`}
-              className="text-blue-600 hover:underline"
+              className="text-blue-500 hover:underline"
             >
               {blog.title}
             </Link>

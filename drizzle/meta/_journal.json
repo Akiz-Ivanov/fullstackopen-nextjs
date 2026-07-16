@@ -29,6 +29,20 @@
       "when": 1784111150402,
       "tag": "0003_chubby_loners",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1784216558653,
+      "tag": "0004_kind_power_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1784232623060,
+      "tag": "0005_amused_beast",
+      "breakpoints": true
     }
   ]
 }

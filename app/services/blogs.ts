@@ -1,4 +1,4 @@
-import { eq, ilike, desc, sql } from "drizzle-orm"
+import { eq, ilike, desc } from "drizzle-orm"
 import { db } from "../../db"
 import { blogs } from "../../db/schema"
 import { getCurrentUser } from "./session"
@@ -29,7 +29,11 @@ export const addBlog = async (title: string, author: string, url: string) => {
     throw new Error("Not logged in")
   }
 
-  await db.insert(blogs).values({ title, author, url, userId: user.id })
+  const [newBlog] = await db.insert(blogs)
+    .values({ title, author, url, userId: user.id })
+    .returning()
+
+  return newBlog
 }
 
 export const likeBlog = async (id: number) => {
